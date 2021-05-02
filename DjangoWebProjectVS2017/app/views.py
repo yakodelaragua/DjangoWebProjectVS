@@ -14,7 +14,6 @@ from django.core.urlresolvers import reverse
 from app.forms import QuestionForm, ChoiceForm,UserForm
 from django.shortcuts import redirect
 import json
-import pandas as pd
 
 
 def home(request):

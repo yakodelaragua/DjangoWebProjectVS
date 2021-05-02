@@ -9,13 +9,8 @@
 <form action="{% url 'vote' question.id %}" method="post">
 {% csrf_token %}
 
-
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-{% endfor %}
-
-    <table class="table">
+{% if request.user.is_authenticated %}
+     <table class="table">
     <tr>
         <th>Choice text</th>
         <th>Votes</th>
@@ -36,12 +31,14 @@
   
     </tr>
     {% endfor %}
-</table>
-
-{% if request.user.is_authenticated %}
+    </table>
     <a href="{% url 'choice_add' question.id %}"><h3>Insertar Opciones</h3></a> 
     <a href="{% url 'chart' question.id %}"> <h3>Ver resultado de la votacion</h3> </a><br />
 {% else %}
+    {% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+{% endfor %}
     <input type="submit" value="Vote" />
 {% endif %}
 
