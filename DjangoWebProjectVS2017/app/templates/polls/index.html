@@ -4,6 +4,17 @@
 <h2>{{ title }}.</h2>
 <h3>{{ message }}</h3>
 
+<form method="POST" class="post-form">
+<select name="item_id">
+{% for category_text in category_list %}
+    <option value="{{ category_text }}">{{ category_text }}</option>
+{% endfor %}
+</select>
+
+<div><input type="submit" class="btn" value="Filtrar por tema" name="tema">
+</div>
+</form>
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}

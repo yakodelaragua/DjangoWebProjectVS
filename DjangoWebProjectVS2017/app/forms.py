@@ -11,16 +11,15 @@ class QuestionForm(forms.ModelForm):
 
         class Meta:
             model = Question
-            fields = ('question_text',)
+            fields = ('question_text', 'category_text',)
 
 class ChoiceForm(forms.ModelForm):
 
         class Meta:
             model = Choice
-            fields = ('choice_text',)
+            fields = ('choice_text', 'correct_check',)
 
 class UserForm(forms.ModelForm):
-
         class Meta:
             model = User
             fields = ('email','nombre',)

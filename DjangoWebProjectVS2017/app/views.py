@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse
 from app.forms import QuestionForm, ChoiceForm,UserForm
 from django.shortcuts import redirect
 import json
+import pandas as pd
 
 
 def home(request):
@@ -55,10 +56,16 @@ def about(request):
     )
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')
+    category_list = []
+    for question in latest_question_list:
+        if question.category_text not in category_list:
+            category_list.append(question.category_text)
+    
     template = loader.get_template('polls/index.html')
     context = {
                 'title':'Lista de preguntas de la encuesta',
                 'latest_question_list': latest_question_list,
+                'category_list': category_list,
               }
     return render(request, 'polls/index.html', context)
 
@@ -142,6 +149,7 @@ def user_new(request):
 
 def users_detail(request):
     latest_user_list = User.objects.order_by('email')
+
     template = loader.get_template('polls/users.html')
     context = {
                 'title':'Lista de usuarios',
