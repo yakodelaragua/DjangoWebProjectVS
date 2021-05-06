@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import Question,Choice,User
 from django.template import loader
 from django.core.urlresolvers import reverse
-from app.forms import QuestionForm, ChoiceForm,UserForm
+from app.forms import QuestionForm, ChoiceForm,UserForm,OrderFilter
 from django.shortcuts import redirect
 import json
 
@@ -60,11 +60,36 @@ def index(request):
         if question.category_text not in category_list:
             category_list.append(question.category_text)
     
+    
     template = loader.get_template('polls/index.html')
+
+    myFilter = OrderFilter(request.GET, queryset=Question.objects.all())
+
     context = {
                 'title':'Lista de preguntas de la encuesta',
                 'latest_question_list': latest_question_list,
                 'category_list': category_list,
+                'myFilter': myFilter,
+                
+              }
+    return render(request, 'polls/index.html', context)
+
+def filter(request, category):
+    question_list = Question.objects.order_by('-pub_date')
+    category_list = []
+    latest_question_list = []
+    for question in question_list:
+        if question.category_text not in category_list:
+            category_list.append(question.category_text)
+        if question.category_text == category:
+            latest_question_list.append(question)
+
+    template = loader.get_template('polls/index.html')
+    context = {
+                'title':'Me meto en el filter',
+                'latest_question_list': latest_question_list,
+                'category_list': category_list,
+                
               }
     return render(request, 'polls/index.html', context)
 

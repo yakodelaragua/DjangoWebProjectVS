@@ -10,6 +10,8 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200)
     category_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.category_text
 
 class Choice(models.Model):
     question = models.ForeignKey(Question)
@@ -20,3 +22,10 @@ class Choice(models.Model):
 class User(models.Model):
     email = models.CharField(max_length=200)
     nombre = models.CharField(max_length=200)
+
+class Order(models.Model):
+    question = models.ForeignKey(Question)
+    
+    def __str__(self):
+        self.question.category_text
+    

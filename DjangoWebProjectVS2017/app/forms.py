@@ -3,9 +3,10 @@ Definition of forms.
 """
 
 from django import forms
-from app.models import Question,Choice,User
+from app.models import Question,Choice,User, Order
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
+import django_filters
 
 class QuestionForm(forms.ModelForm):
 
@@ -34,3 +35,9 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                widget=forms.PasswordInput({
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
+
+class OrderFilter(django_filters.FilterSet):
+    class Meta:
+        model = Order
+       
+        fields = ('question',)

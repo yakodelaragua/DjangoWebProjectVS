@@ -16,6 +16,11 @@
 </div>
 </form>
 
+<form method="get">
+    {{myFilter.form}}
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
