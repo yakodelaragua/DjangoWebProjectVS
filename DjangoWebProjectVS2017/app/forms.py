@@ -38,6 +38,6 @@ class BootstrapAuthenticationForm(AuthenticationForm):
 
 class OrderFilter(django_filters.FilterSet):
     class Meta:
-        model = Order
-       
-        fields = ('question',)
+        model = Question
+        fields = ('__all__')
+        exclude = ('question_text', 'pub_date')

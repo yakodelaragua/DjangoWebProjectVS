@@ -10,8 +10,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200)
     category_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
-    def __str__(self):
-        return self.category_text
+   
 
 class Choice(models.Model):
     question = models.ForeignKey(Question)
@@ -24,8 +23,13 @@ class User(models.Model):
     nombre = models.CharField(max_length=200)
 
 class Order(models.Model):
+    COLOR_CHOICES = (
+        ('green','GREEN'),
+        ('blue', 'BLUE'),
+        ('red','RED'),
+        ('orange','ORANGE'),
+        ('black','BLACK'),
+    )
+
     question = models.ForeignKey(Question)
-    
-    def __str__(self):
-        self.question.category_text
-    
+    #color = models.CharField(max_length=6, choices=models.ForeignKey(Question))

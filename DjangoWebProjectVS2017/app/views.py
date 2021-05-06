@@ -63,8 +63,10 @@ def index(request):
     
     template = loader.get_template('polls/index.html')
 
-    myFilter = OrderFilter(request.GET, queryset=Question.objects.all())
-
+    myFilter = OrderFilter(request.GET, queryset=latest_question_list)
+    latest_question_list = myFilter.qs
+    print('aaa')
+   
     context = {
                 'title':'Lista de preguntas de la encuesta',
                 'latest_question_list': latest_question_list,
