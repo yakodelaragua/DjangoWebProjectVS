@@ -65,35 +65,17 @@ def index(request):
 
     myFilter = OrderFilter(request.GET, queryset=latest_question_list)
     latest_question_list = myFilter.qs
-    print('aaa')
    
     context = {
                 'title':'Lista de preguntas de la encuesta',
                 'latest_question_list': latest_question_list,
                 'category_list': category_list,
                 'myFilter': myFilter,
-                
+   
               }
     return render(request, 'polls/index.html', context)
 
-def filter(request, category):
-    question_list = Question.objects.order_by('-pub_date')
-    category_list = []
-    latest_question_list = []
-    for question in question_list:
-        if question.category_text not in category_list:
-            category_list.append(question.category_text)
-        if question.category_text == category:
-            latest_question_list.append(question)
 
-    template = loader.get_template('polls/index.html')
-    context = {
-                'title':'Me meto en el filter',
-                'latest_question_list': latest_question_list,
-                'category_list': category_list,
-                
-              }
-    return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
      question = get_object_or_404(Question, pk=question_id)
