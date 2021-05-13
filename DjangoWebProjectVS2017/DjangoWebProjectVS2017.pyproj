@@ -74,6 +74,8 @@
     <Content Include="app\templates\polls\choice_new.html" />
     <Content Include="app\templates\polls\detail.html" />
     <Content Include="app\templates\polls\grafico.html" />
+    <Content Include="app\templates\polls\show_categories.html" />
+    <Content Include="app\templates\polls\test.html" />
     <Content Include="app\templates\polls\users.html" />
     <Content Include="app\templates\polls\index.html" />
     <Content Include="app\templates\polls\user_new.html" />

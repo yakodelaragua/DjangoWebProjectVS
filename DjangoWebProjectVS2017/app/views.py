@@ -92,7 +92,7 @@ def detaila(request, question_id, selected_choice):
         
     return render(request, 'polls/detail.html', {'title':'Respuestas asociadas a la pregunta:','question': question, 'resultado': resultado})
 
-def results(request, question_id, selected_choice):
+def result(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'title':'Resultados de la pregunta:','question': question})
 
@@ -127,6 +127,23 @@ def vote(request, question_id):
         # puedan postear dos veces si el usuario vuelve atras en su browser.
         return HttpResponseRedirect(reverse('detail', args=(p.id, selected_choice.id)))
 
+def votes(request, question_id):
+    p = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = p.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Vuelve a mostrar el form.
+        return render(request, 'polls/detail.html', {
+            'question': p,
+            'error_message': "ERROR: No se ha seleccionado una opcion",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Siempre devolver un HttpResponseRedirect despues de procesar
+        # exitosamente el POST de un form. Esto evita que los datos se
+        # puedan postear dos veces si el usuario vuelve atras en su browser.
+        return HttpResponseRedirect(reverse('results', args=(p.id, selected_choice.id)))
 
 
 
@@ -222,3 +239,7 @@ def users_detail(request):
                 'latest_user_list': latest_user_list,
               }
     return render(request, 'polls/users.html', context)
+
+def show_categories(request):
+    
+    return render(request, 'polls/show_categories.html')

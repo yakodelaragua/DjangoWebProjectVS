@@ -42,13 +42,16 @@
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
     {% endfor %}
-        <input type="submit" value="Vote" />
 
-    <button type="button" href="{% url 'vote' question.id %}">Votar</button>
+    <input type="submit" value="Vote" />
+
+
 
 {% endif %}
 </form>
      <h3>{{ resultado }}</h3>
+             <a href="{% url 'result' question.id %}"> <h3>Ver resultados</h3> </a><br />
+
      </div>
 
 
@@ -59,8 +62,7 @@
 
 {% block javascript %}
 <script>
-  
- 
+
       $("#vote_form").submit(function (e) {
         e.preventDefault();
         var serializedData = $(this).serialize();
@@ -75,6 +77,7 @@
            
         })
     })
- 
+    
+    
 </script>
 {% endblock javascript %}

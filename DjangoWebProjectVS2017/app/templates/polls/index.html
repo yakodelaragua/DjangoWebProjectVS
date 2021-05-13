@@ -21,6 +21,11 @@
     <button class="btn btn-primary" type="submit">Search</button>
 </form>
 
+
+<a href="{% url 'show_categories' %}"><h2>Evaluarse</h2></a> 
+
+
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
