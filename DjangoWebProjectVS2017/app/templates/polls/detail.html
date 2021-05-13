@@ -2,25 +2,16 @@
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
-{% block javascript %}
-  <script>
-    $("#id_username").change(function () {
-      console.log( $(this).val() );
-    });
-  </script>
-{% endblock %}
-
-
 {% block content %}
-
-<h2>{{ title }}.</h2>
+ <div id="div2">
+<h2>{{ title }}</h2>
 <h3>{{ message }}</h3>
 
 <h3>Pregunta: {{ question.question_text }}</h3>
 {% if error_message %}<p><strong style="color:red;"><b>{{ error_message }}</b></strong></p>{% endif %}
-<form action="{% url 'vote' question.id %}" method="post" id="vote_form">
+
+<form id="vote_form" action="{% url 'vote' question.id %}" method="post">
 {% csrf_token %}
-    <input type="text" required="" name="username" maxlength="150" id="id_username" autofocus="">
 {% if request.user.is_authenticated %}
      <table class="table">
     <tr>
@@ -51,9 +42,39 @@
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
     {% endfor %}
-    <input type="submit" value="Vote"/>
+        <input type="submit" value="Vote" />
+
+    <button type="button" href="{% url 'vote' question.id %}">Votar</button>
+
 {% endif %}
 </form>
+     <h3>{{ resultado }}</h3>
+     </div>
+
+
+
+
 
 {% endblock %}
 
+{% block javascript %}
+<script>
+  
+ 
+      $("#vote_form").submit(function (e) {
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'vote' question.id %}",
+            data: serializedData,
+            success: function (result) {
+                
+                $("#div2").html(result);
+            }
+           
+        })
+    })
+ 
+</script>
+{% endblock javascript %}
