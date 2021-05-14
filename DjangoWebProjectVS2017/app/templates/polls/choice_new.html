@@ -7,8 +7,25 @@
 <h1>Insertar una opción</h1>
         <form method="POST" class="post-form">{% csrf_token %}
             {{ form.as_p }}
+            <h1 style="background-color:powderblue;font-size:20px;">{{ estado }}</h1>
+
             <button type="submit" class="save btn btn-default">Save</button>
         </form>
 <a href="{% url 'index' %}">Ver preguntas</a> 
+<hr />
+
+<p>La pregunta debe tener entre 2 y 4 opciones.</p>
+
+{% if choices %}
+
+<p>Opciones actuales:</p>
+ <ul>
+    {% for choice in choices %}
+        <li>{{ choice.choice_text }} - {{ choice.correct_check }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Todavía no tiene opciones</p>
+{% endif %}
 
 {% endblock %}

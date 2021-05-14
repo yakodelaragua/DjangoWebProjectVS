@@ -54,7 +54,6 @@ urlpatterns = [
     url(r'^(?P<question_id>\d+)/(?P<selected_choice>\d+)/results/$', app.views.results, name='results'),
 
 
-
     url(r'^polls/(?P<question_id>\d+)/$', app.views.detail, name='detail'),
     url(r'^polls/(?P<question_id>\d+)/(?P<selected_choice>\d+)/$', app.views.detaila, name='detail'),
 

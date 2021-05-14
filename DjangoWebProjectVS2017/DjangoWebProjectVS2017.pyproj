@@ -64,6 +64,7 @@
     <Folder Include="DjangoWebProjectVS2017\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\yara.JPG" />
     <Content Include="app\static\yo.gif" />
     <Content Include="app\templates\app\about.html" />
     <Content Include="app\templates\app\contact.html" />

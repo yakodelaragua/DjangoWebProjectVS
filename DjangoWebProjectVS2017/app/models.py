@@ -7,10 +7,16 @@ from django.db.models.fields import CharField
 
 # Create your models here.
 class Question(models.Model):
+    level = (
+            ('Facil', 'Facil'),
+            ('Medio', 'Medio'),
+            ('Dificil', 'Dificil'),
+            )
     question_text = models.CharField(max_length=200)
-    category_text = models.CharField(max_length=200)
+    category_text = models.CharField(max_length=200, verbose_name="Categoría")
     pub_date = models.DateTimeField('date published')
-   
+    question_num = models.IntegerField(default='0')
+    level = models.CharField(max_length=1000, null=True, choices=level)
 
 class Choice(models.Model):
     question = models.ForeignKey(Question)
@@ -22,14 +28,3 @@ class User(models.Model):
     email = models.CharField(max_length=200)
     nombre = models.CharField(max_length=200)
 
-class Order(models.Model):
-    COLOR_CHOICES = (
-        ('green','GREEN'),
-        ('blue', 'BLUE'),
-        ('red','RED'),
-        ('orange','ORANGE'),
-        ('black','BLACK'),
-    )
-
-    question = models.ForeignKey(Question)
-    #color = models.CharField(max_length=6, choices=models.ForeignKey(Question))

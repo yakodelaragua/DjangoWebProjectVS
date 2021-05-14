@@ -184,27 +184,49 @@ def question_new(request):
             if form.is_valid():
                 question = form.save(commit=False)
                 question.pub_date=datetime.now()
+                question.question_num = 0
                 question.save()
+                estado = 'Pregunta correctamente añadida'
                 #return redirect('detail', pk=question_id)
                 #return render(request, 'polls/index.html', {'title':'Respuestas posibles','question': question})
         else:
             form = QuestionForm()
-        return render(request, 'polls/question_new.html', {'form': form})
+            estado = ''
+        return render(request, 'polls/question_new.html', {'form': form, 'estado': estado,})
+
 
 def choice_add(request, question_id):
         question = Question.objects.get(id = question_id)
+        question_num = Choice.objects.filter(question = question_id).count()
+        choices = Choice.objects.filter(question = question_id)
+        estado = ''
+
         if request.method =='POST':
             form = ChoiceForm(request.POST)
             if form.is_valid():
-                choice = form.save(commit = False)
-                choice.question = question
-                choice.vote = 0
-                choice.save()         
-                #form.save()
+                if question_num < 4:
+                    has_marked_correct_check = form.cleaned_data['correct_check']
+                    num_correct_choices = choices.filter(correct_check = True).count()
+
+                    if num_correct_choices > 0 and has_marked_correct_check is True:
+                        estado = 'Solo puede haber una respuesta correcta por pregunta'
+
+                    else:
+                        choice = form.save(commit = False)
+                        choice.question = question
+                        choice.vote = 0
+                        choice.save()
+                        estado = 'Respuesta correctamente añadida'
+                        if question_num < 2:
+                            estado = 'Respuesta correctamente añadida, introduce al menos dos opciones'
+
+                else:
+                    estado = 'Se ha alcanzado el límite de respuestas posibles'
+      
         else: 
             form = ChoiceForm()
         #return render_to_response ('choice_new.html', {'form': form, 'poll_id': poll_id,}, context_instance = RequestContext(request),)
-        return render(request, 'polls/choice_new.html', {'title':'Pregunta:'+ question.question_text,'form': form})
+        return render(request, 'polls/choice_new.html', {'title':'Pregunta:'+ question.question_text,'form': form, 'estado': estado, 'choices': choices})
 
 def chart(request, question_id):
     q=Question.objects.get(id = question_id)

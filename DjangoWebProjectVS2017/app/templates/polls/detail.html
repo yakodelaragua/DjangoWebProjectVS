@@ -3,7 +3,7 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 {% block content %}
- <div id="div2">
+ <div id="div">
 <h2>{{ title }}</h2>
 <h3>{{ message }}</h3>
 
@@ -12,50 +12,38 @@
 
 <form id="vote_form" action="{% url 'vote' question.id %}" method="post">
 {% csrf_token %}
+
 {% if request.user.is_authenticated %}
      <table class="table">
-    <tr>
-        <th>Choice text</th>
-        <th>Votes</th>
-        <th>Answer</th>
-    </tr>
-    {% for choice in question.choice_set.all %}
-    <tr> 
-        <td>
-            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-        </td>
-        
-        <td>
-            <label for="choice{{ forloop.counter }}">{{ choice.votes }}</label><br />
-        </td>
-          <td>
-            <label for="choice{{ forloop.counter }}">{{ choice.correct_check }}</label><br />
-        </td>  
-  
-    </tr>
-    {% endfor %}
+        <tr>
+            <th>Choice text</th>
+            <th>Votes</th>
+            <th>Answer</th>
+        </tr>
+        {% for choice in question.choice_set.all %}
+            <tr> 
+                <td><label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br /></td>
+                <td><label for="choice{{ forloop.counter }}">{{ choice.votes }}</label><br /></td>
+                <td><label for="choice{{ forloop.counter }}">{{ choice.correct_check }}</label><br /></td>  
+            </tr>
+        {% endfor %}
     </table>
     <a href="{% url 'choice_add' question.id %}"><h3>Insertar Opciones</h3></a> 
     <a href="{% url 'chart' question.id %}"> <h3>Ver resultado de la votacion</h3> </a><br />
+
 {% else %}
     {% for choice in question.choice_set.all %}
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
     {% endfor %}
-
     <input type="submit" value="Vote" />
-
-
+    <h1 style="background-color:powderblue;font-size:20px;">{{ resultado }}</h1>
+    <a href="{% url 'result' question.id %}"> <h3>Ver resultados</h3> </a><br />
 
 {% endif %}
 </form>
-     <h3>{{ resultado }}</h3>
-             <a href="{% url 'result' question.id %}"> <h3>Ver resultados</h3> </a><br />
 
-     </div>
-
-
-
+</div>
 
 
 {% endblock %}
@@ -71,13 +59,11 @@
             url: "{% url 'vote' question.id %}",
             data: serializedData,
             success: function (result) {
-                
-                $("#div2").html(result);
+                $("#div").html(result);
             }
            
         })
     })
-    
     
 </script>
 {% endblock javascript %}

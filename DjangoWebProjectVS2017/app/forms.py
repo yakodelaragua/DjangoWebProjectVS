@@ -3,10 +3,11 @@ Definition of forms.
 """
 
 from django import forms
-from app.models import Question,Choice,User, Order
+from app.models import Question,Choice,User
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 import django_filters
+from django_filters import DateFilter, CharFilter
 
 class QuestionForm(forms.ModelForm):
 
@@ -37,7 +38,11 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                    'placeholder':'Password'}))
 
 class OrderFilter(django_filters.FilterSet):
+    start_date = DateFilter(field_name="pub_date", lookup_expr='gte', label='Desde (dd/mm/yyyy)')
+    end_date = DateFilter(field_name="pub_date", lookup_expr='lte', label='Hasta (dd/mm/yyyy)')
+    question = CharFilter(field_name='question_text', lookup_expr='icontains', label='Pregunta')
+
     class Meta:
         model = Question
-        fields = ('__all__')
-        exclude = ('question_text', 'pub_date')
+        fields = ('category_text', 'level',)
+        exclude = ('question_text', 'pub_date', 'question_num')

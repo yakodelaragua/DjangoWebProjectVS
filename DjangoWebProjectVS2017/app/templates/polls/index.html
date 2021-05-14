@@ -4,21 +4,10 @@
 <h2>{{ title }}.</h2>
 <h3>{{ message }}</h3>
 
-<form method="POST" class="post-form">
-<select name="item_id">
-{% for category_text in category_list %}
-    <option value="{{ category_text }}">{{ category_text }}</option>
-{% endfor %}
-</select>
-
-<div>
-    <input type="submit" class="btn" value="Filtrar por tema" name="tema">
-</div>
-</form>
 
 <form method="get">
     {{myFilter.form}}
-    <button class="btn btn-primary" type="submit">Search</button>
+    <button class="btn btn-primary" type="submit">Filtrar</button>
 </form>
 
 
@@ -27,12 +16,25 @@
 
 
 {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-  
+<table class="table">
+        <tr>
+            <th>Question</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Level</th>
+
+        </tr>
+        {% for question in latest_question_list %}
+            <tr> 
+                <td><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a><br /></td>
+                <td><label for="choice{{ forloop.counter }}">{{ question.category_text }}</label><br /></td>
+                <td><label for="choice{{ forloop.counter }}">{{ question.pub_date }}</label><br /></td>  
+                <td><label for="choice{{ forloop.counter }}">{{ question.level }}</label><br /></td>  
+
+            </tr>
+        {% endfor %}
+    </table>
+
 {% else %}
     <p>No polls are available.</p>
 {% endif %}

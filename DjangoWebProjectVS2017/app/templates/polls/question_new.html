@@ -1,12 +1,15 @@
 ﻿{% extends "app/layout.html" %}
 {% block content %}
 
-<h2>{{ title }}.</h2>
+<h2>{{ title }}</h2>
 <h3>{{ message }}</h3>
 
 <h1>Insertar una pregunta</h1>
+
         <form method="POST" class="post-form">{% csrf_token %}
             {{ form.as_p }}
+            <h1 style="background-color:powderblue;font-size:20px;">{{ estado }}</h1>
+
             <button type="submit" class="save btn btn-default">Save</button>
         </form>
 <a href="{% url 'index' %}">Ver preguntas</a> 
