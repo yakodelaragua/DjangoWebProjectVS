@@ -12,11 +12,11 @@ class Question(models.Model):
             ('Medio', 'Medio'),
             ('Dificil', 'Dificil'),
             )
-    question_text = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=200, verbose_name="Pregunta")
     category_text = models.CharField(max_length=200, verbose_name="Categoría")
     pub_date = models.DateTimeField('date published')
     question_num = models.IntegerField(default='0')
-    level = models.CharField(max_length=1000, null=True, choices=level)
+    level = models.CharField(max_length=1000, null=True, choices=level, verbose_name="Dificultad")
 
 class Choice(models.Model):
     question = models.ForeignKey(Question)

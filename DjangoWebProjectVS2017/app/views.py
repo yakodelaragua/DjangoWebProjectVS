@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import Question,Choice,User
 from django.template import loader
 from django.core.urlresolvers import reverse
-from app.forms import QuestionForm, ChoiceForm,UserForm,OrderFilter
+from app.forms import QuestionForm, ChoiceForm, UserForm, OrderFilter
 from django.shortcuts import redirect
 import json
 
@@ -147,36 +147,6 @@ def votes(request, question_id):
 
 
 
-def comprobarcorrecto(request, question_id):
-    p = get_object_or_404(Question, pk=question_id)
-    seleccionado = get_object_or_404(Choice, pk=selected_choice)
-
-    if  seleccionado.correct_check:
-        resultado='Correcto'
-    else:
-        resultado='Incorrecto'
-      
-    return HttpResponseRedirect(reverse('detail', args=(p.id, seleccionado.id)))
-
-
-
-def viewvote(request, question_id):
-    p = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = p.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Vuelve a mostrar el form.
-        return render(request, 'polls/detail.html', {
-            'question': p,
-            'error_message': "ERROR: No se ha seleccionado una opcion",
-        })
-    else:
-        
-        # Siempre devolver un HttpResponseRedirect despues de procesar
-        # exitosamente el POST de un form. Esto evita que los datos se
-        # puedan postear dos veces si el usuario vuelve atras en su browser.
-        return HttpResponseRedirect(reverse('results', args=(p.id, selected_choice.id)))
-
 
 def question_new(request):
         if request.method == "POST":
@@ -217,7 +187,7 @@ def choice_add(request, question_id):
                         choice.vote = 0
                         choice.save()
                         estado = 'Respuesta correctamente añadida'
-                        if question_num < 2:
+                        if question_num < 1:
                             estado = 'Respuesta correctamente añadida, introduce al menos dos opciones'
 
                 else:
@@ -261,7 +231,3 @@ def users_detail(request):
                 'latest_user_list': latest_user_list,
               }
     return render(request, 'polls/users.html', context)
-
-def show_categories(request):
-    
-    return render(request, 'polls/show_categories.html')

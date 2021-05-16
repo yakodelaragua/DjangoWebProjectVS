@@ -10,18 +10,14 @@
     <button class="btn btn-primary" type="submit">Filtrar</button>
 </form>
 
-
-<a href="{% url 'show_categories' %}"><h2>Evaluarse</h2></a> 
-
-
-
+ 
 {% if latest_question_list %}
 <table class="table">
         <tr>
-            <th>Question</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Level</th>
+            <th>Pregunta</th>
+            <th>Categoría</th>
+            <th>Fecha</th>
+            <th>Dificultad</th>
 
         </tr>
         {% for question in latest_question_list %}
@@ -42,12 +38,4 @@
 <a href="{% url 'add' %}"><h2>Insertar pregunta</h2></a> 
 {% endif %}
 
-{% endblock %}
-{% block js %}
-<script>
-    $(function () {
-
-    });
-
-</script>
 {% endblock %}

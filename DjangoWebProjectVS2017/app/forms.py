@@ -13,7 +13,7 @@ class QuestionForm(forms.ModelForm):
 
         class Meta:
             model = Question
-            fields = ('question_text', 'category_text',)
+            fields = ('question_text', 'category_text', 'level',)
 
 class ChoiceForm(forms.ModelForm):
 
@@ -38,8 +38,8 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                    'placeholder':'Password'}))
 
 class OrderFilter(django_filters.FilterSet):
-    start_date = DateFilter(field_name="pub_date", lookup_expr='gte', label='Desde (dd/mm/yyyy)')
-    end_date = DateFilter(field_name="pub_date", lookup_expr='lte', label='Hasta (dd/mm/yyyy)')
+    start_date = DateFilter(field_name="pub_date", lookup_expr='gte', label='A partir de (dd/mm/yyyy)')
+    end_date = DateFilter(field_name="pub_date", lookup_expr='lte', label='Antes de (dd/mm/yyyy)')
     question = CharFilter(field_name='question_text', lookup_expr='icontains', label='Pregunta')
 
     class Meta:

@@ -16,9 +16,9 @@
 {% if request.user.is_authenticated %}
      <table class="table">
         <tr>
-            <th>Choice text</th>
-            <th>Votes</th>
-            <th>Answer</th>
+            <th>Opción</th>
+            <th>Votos</th>
+            <th>Correcto/incorrecto</th>
         </tr>
         {% for choice in question.choice_set.all %}
             <tr> 
